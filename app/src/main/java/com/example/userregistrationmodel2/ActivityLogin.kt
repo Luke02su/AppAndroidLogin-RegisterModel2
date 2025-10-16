@@ -1,11 +1,15 @@
 package com.example.userregistrationmodel2
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -24,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -107,8 +112,11 @@ fun LoginScreen(navController: NavHostController) {
             singleLine = true
         )
 
+        val context = LocalContext.current
+
         Button(
             onClick = {
+                Toast.makeText(context, "Register successfully!", Toast.LENGTH_SHORT).show()
                 navController.navigate("home")
             },
             modifier = Modifier
@@ -134,10 +142,93 @@ fun LoginScreen(navController: NavHostController) {
 
 @Composable
 fun RegisterScreen(navController: NavHostController) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 40.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text (
+            text = "Sign Up",
+            color = Color.Gray,
+            fontSize = 20.sp
+        )
+
+        Text (
+            text = "Sign up your account",
+            fontSize = 12.sp,
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(top = 40.dp)
+        )
+
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Email") },
+            leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+            singleLine = true
+        )
+
+        val context = LocalContext.current
+
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Password") },
+            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Email") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp),
+            singleLine = true
+        )
+        Button(
+            onClick = {
+                Toast.makeText(context, "Login successfully!", Toast.LENGTH_SHORT).show()
+                navController.navigate("home")
+            },
+            shape = RoundedCornerShape(4.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242))
+        ) {
+            Text("Sign up", color = Color.White)
+        }
+
+        Text(
+            text = "Have an account? Sign in",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .clickable {
+                    navController.navigate("login")
+                }
+        )
+    }
 }
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
-
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 40.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Welcome! Keep programming from here...",
+            color = Color.Gray,
+            fontSize = 20.sp
+        )
+    }
 }
