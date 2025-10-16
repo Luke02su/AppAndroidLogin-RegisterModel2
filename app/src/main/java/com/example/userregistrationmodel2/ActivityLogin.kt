@@ -4,10 +4,13 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -89,7 +92,8 @@ fun LoginScreen(navController: NavHostController) {
             leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp)
+                .padding(top = 20.dp),
+            singleLine = true
         )
 
         OutlinedTextField(
@@ -99,7 +103,31 @@ fun LoginScreen(navController: NavHostController) {
             leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp)
+                .padding(top = 10.dp),
+            singleLine = true
+        )
+
+        Button(
+            onClick = {
+                navController.navigate("home")
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
+        ) {
+            Text("Sign in", color = Color.White)
+        }
+
+        Text(
+            text = "Don't have an account? Sign up",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .clickable {
+                    navController.navigate("register")
+                }
         )
     }
 }
