@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -73,7 +74,8 @@ fun LoginScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 40.dp),
+            .padding(horizontal = 40.dp)
+            .background(Color.White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -157,7 +159,8 @@ fun RegisterScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 40.dp),
+            .padding(horizontal = 40.dp)
+            .background(Color.White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -215,6 +218,7 @@ fun RegisterScreen(navController: NavHostController) {
         ) {
             Text("Sign up", color = Color.White)
         }
+
         Text(
             text = "Have an account? Sign in",
             color = Color.Gray,
@@ -233,7 +237,8 @@ fun RegisterScreen(navController: NavHostController) {
 fun HomeScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(Color.White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
