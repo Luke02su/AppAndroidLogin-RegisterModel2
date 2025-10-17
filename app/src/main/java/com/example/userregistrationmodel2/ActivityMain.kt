@@ -67,6 +67,8 @@ fun AppNavigation() {
 fun LoginScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val auth = FirebaseAuth.getInstance()
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -111,8 +113,6 @@ fun LoginScreen(navController: NavHostController) {
             singleLine = true
         )
 
-        val auth = FirebaseAuth.getInstance()
-        val context = LocalContext.current
         Button(
             onClick = {
                 auth.signInWithEmailAndPassword(email, password)
@@ -151,6 +151,8 @@ fun LoginScreen(navController: NavHostController) {
 fun RegisterScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val auth = FirebaseAuth.getInstance()
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -193,8 +195,6 @@ fun RegisterScreen(navController: NavHostController) {
             singleLine = true
         )
 
-        val auth = FirebaseAuth.getInstance()
-        val context = LocalContext.current
         Button(
             onClick = {
                 auth.createUserWithEmailAndPassword(email, password)
