@@ -5,8 +5,6 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -36,17 +34,17 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 
 class Login : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        // Function for navigation screens
         setContent {
             AppNavigation()
         }
     }
 }
 
+// Controller for navigation screens
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
@@ -64,6 +62,7 @@ fun AppNavigation() {
     }
 }
 
+// Screen of login
 @Composable
 fun LoginScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
@@ -112,12 +111,19 @@ fun LoginScreen(navController: NavHostController) {
             singleLine = true
         )
 
+        val auth = FirebaseAuth.getInstance()
         val context = LocalContext.current
-
         Button(
             onClick = {
-                Toast.makeText(context, "Register successfully!", Toast.LENGTH_SHORT).show()
-                navController.navigate("home")
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(context, "Login successfully!", Toast.LENGTH_SHORT).show()
+                            navController.navigate("home")
+                        } else {
+                            Toast.makeText(context, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -140,6 +146,7 @@ fun LoginScreen(navController: NavHostController) {
     }
 }
 
+// Screen of register
 @Composable
 fun RegisterScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
@@ -157,7 +164,6 @@ fun RegisterScreen(navController: NavHostController) {
             color = Color.Gray,
             fontSize = 20.sp
         )
-
         Text (
             text = "Sign up your account",
             fontSize = 12.sp,
@@ -165,7 +171,6 @@ fun RegisterScreen(navController: NavHostController) {
                 .align(Alignment.Start)
                 .padding(top = 40.dp)
         )
-
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -177,23 +182,31 @@ fun RegisterScreen(navController: NavHostController) {
             singleLine = true
         )
 
-        val context = LocalContext.current
-
         OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
+            value = password,
+            onValueChange = { password = it },
             label = { Text("Password") },
-            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Email") },
+            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 10.dp),
             singleLine = true
         )
+
+        val auth = FirebaseAuth.getInstance()
+        val context = LocalContext.current
         Button(
             onClick = {
-                Toast.makeText(context, "Login successfully!", Toast.LENGTH_SHORT).show()
-                navController.navigate("home")
-            },
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(context, "Register successfully!", Toast.LENGTH_SHORT).show()
+                            navController.navigate("login")
+                        } else {
+                            Toast.makeText(context, "Register failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                },
             shape = RoundedCornerShape(4.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -202,7 +215,6 @@ fun RegisterScreen(navController: NavHostController) {
         ) {
             Text("Sign up", color = Color.White)
         }
-
         Text(
             text = "Have an account? Sign in",
             color = Color.Gray,
@@ -216,19 +228,19 @@ fun RegisterScreen(navController: NavHostController) {
     }
 }
 
+// Screen of home
 @Composable
 fun HomeScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 40.dp),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Welcome! Keep programming from here...",
             color = Color.Gray,
-            fontSize = 20.sp
+            fontSize = 12.sp
         )
     }
 }
