@@ -16,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,13 +53,28 @@ fun AppNavigation() {
 
     NavHost(navController = navController, startDestination = "login") {
         composable("login") {
-            LoginScreen(navController)
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = Color.White
+            ) {
+                LoginScreen(navController)
+            }
         }
         composable("register") {
-            RegisterScreen(navController)
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = Color.White
+            ) {
+                RegisterScreen(navController)
+            }
         }
         composable("home") {
-            HomeScreen(navController)
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = Color.White
+            ) {
+                HomeScreen(navController)
+            }
         }
     }
 }
@@ -71,80 +87,89 @@ fun LoginScreen(navController: NavHostController) {
     val auth = FirebaseAuth.getInstance()
     val context = LocalContext.current
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 40.dp)
-            .background(Color.White),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = Color.White
     ) {
-        Text(
-            text = "Sign In",
-            color = Color.Gray,
-            fontSize = 20.sp
-        )
-
-        Text(
-            text = "Sign in your account",
-            fontSize = 12.sp,
+        Column(
             modifier = Modifier
-                .align(Alignment.Start)
-                .padding(top = 40.dp)
-        )
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") },
-            leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
-            singleLine = true
-        )
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-            singleLine = true
-        )
-
-        Button(
-            onClick = {
-                auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(context, "Login successfully!", Toast.LENGTH_SHORT).show()
-                            navController.navigate("home")
-                        } else {
-                            Toast.makeText(context, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
+                .fillMaxSize()
+                .padding(horizontal = 40.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Sign in", color = Color.White)
-        }
+            Text(
+                text = "Sign In",
+                color = Color.Gray,
+                fontSize = 20.sp
+            )
 
-        Text(
-            text = "Don't have an account? Sign up",
-            color = Color.Gray,
-            fontSize = 14.sp,
-            modifier = Modifier
-                .padding(top = 20.dp)
-                .clickable {
-                    navController.navigate("register")
-                }
-        )
+            Text(
+                text = "Sign in your account",
+                fontSize = 12.sp,
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(top = 40.dp)
+            )
+
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Email") },
+                leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                singleLine = true
+            )
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Password") },
+                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp),
+                singleLine = true
+            )
+
+            Button(
+                onClick = {
+                    auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(context, "Login successfully!", Toast.LENGTH_SHORT)
+                                    .show()
+                                navController.navigate("home")
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Login failed: ${task.exception?.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
+            ) {
+                Text("Sign in", color = Color.White)
+            }
+
+            Text(
+                text = "Don't have an account? Sign up",
+                color = Color.Gray,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .padding(top = 20.dp)
+                    .clickable {
+                        navController.navigate("register")
+                    }
+            )
+        }
     }
 }
 
