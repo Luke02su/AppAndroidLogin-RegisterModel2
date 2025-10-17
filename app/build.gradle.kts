@@ -19,7 +19,7 @@ android {
 
 
     defaultConfig {
-        applicationId = "com.example.userregistrationmodel"
+        applicationId = "com.example.userregistrationmodel2"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
