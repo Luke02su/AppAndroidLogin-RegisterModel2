@@ -118,8 +118,11 @@ auth.signInWithEmailAndPassword(email, password)
 ---
 
 ## Code Author 💻👨‍💻
+```kotlin
 fun main() {
     println("Code by Lucas Samuel Dias!")
     println("Welcome to the Login & Register Model App using Jetpack Compose!")
 }
+```
+
 
