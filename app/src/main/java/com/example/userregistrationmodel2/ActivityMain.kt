@@ -25,18 +25,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 
-class Login : AppCompatActivity() {
+class ActivityMain : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -74,6 +76,7 @@ fun LoginScreen(navController: NavHostController) {
     var password by remember { mutableStateOf("") }
     val auth = FirebaseAuth.getInstance()
     val context = LocalContext.current
+    val signUp = "Sign up"
 
     Column(
         modifier = Modifier
@@ -147,7 +150,12 @@ fun LoginScreen(navController: NavHostController) {
         }
 
         Text(
-            text = "Don't have an account? Sign up",
+            text = buildAnnotatedString {
+                append("Have an account? ")
+                withStyle(style = SpanStyle(color = Color.Cyan)) {
+                    append(signUp)
+                }
+            },
             color = Color.Gray,
             fontSize = 14.sp,
             modifier = Modifier
@@ -166,12 +174,12 @@ fun RegisterScreen(navController: NavHostController) {
     var password by remember { mutableStateOf("") }
     val auth = FirebaseAuth.getInstance()
     val context = LocalContext.current
+    val signIn = "Sign in"
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 40.dp)
-            .background(Color.White),
+            .padding(horizontal = 40.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -194,8 +202,8 @@ fun RegisterScreen(navController: NavHostController) {
             leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp)
-                .clip(RoundedCornerShape(10.dp)),
+                .padding(top = 20.dp),
+            shape = RoundedCornerShape(10.dp),
             singleLine = true
         )
 
@@ -206,8 +214,8 @@ fun RegisterScreen(navController: NavHostController) {
             leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp)
-            .clip(RoundedCornerShape(10.dp)),
+                .padding(top = 10.dp),
+            shape = RoundedCornerShape(10.dp),
             singleLine = true
         )
 
@@ -238,7 +246,12 @@ fun RegisterScreen(navController: NavHostController) {
         }
 
         Text(
-            text = "Have an account? Sign in",
+            text = buildAnnotatedString {
+                append("Don't have an account? ")
+                withStyle(style = SpanStyle(color = Color.Cyan)) {
+                    append(signIn)
+                }
+            },
             color = Color.Gray,
             fontSize = 14.sp,
             modifier = Modifier
