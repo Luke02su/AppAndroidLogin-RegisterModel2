@@ -96,24 +96,24 @@ auth.signInWithEmailAndPassword(email, password)
 
 ## Technologies Used 🤖🍏
 
-Programming Language: Kotlin
-Development Environment: Android Studio
-Firebase Authentication: Email/Password login
-UI Components: Jetpack Compose (Column, Text, OutlinedTextField, Button, Icon, Text)
-Custom Styles: Rounded corners (10dp), padding, icons via leadingIcon, clickable spans via AnnotatedString
-Target Platform: Android Mobile Devices
+- Programming Language: Kotlin
+- Development Environment: Android Studio
+- Firebase Authentication: Email/Password login
+- UI Components: Jetpack Compose (Column, Text, OutlinedTextField, Button, Icon, Text)
+- Custom Styles: Rounded corners (10dp), padding, icons via leadingIcon, clickable spans via AnnotatedString
+- Target Platform: Android Mobile Devices
 
 ---
 
 ## Best Practices ✅
 
-Modular and maintainable Compose screen structure
-Reusable @Composable components for buttons, text fields, and links
-Input validation for security and UX
-Edge-to-edge layout for modern immersive design
-Responsive and adaptive to different screen sizes
-Clickable spans for interactive links
-Navigation handled with Navigation Compose, replacing Intents
+- Modular and maintainable Compose screen structure
+- Reusable @Composable components for buttons, text fields, and links
+- Input validation for security and UX
+- Edge-to-edge layout for modern immersive design
+- Responsive and adaptive to different screen sizes
+- Clickable spans for interactive links
+- Navigation handled with Navigation Compose, replacing Intents
 
 ---
 
@@ -122,3 +122,4 @@ fun main() {
     println("Code by Lucas Samuel Dias!")
     println("Welcome to the Login & Register Model App using Jetpack Compose!")
 }
+
