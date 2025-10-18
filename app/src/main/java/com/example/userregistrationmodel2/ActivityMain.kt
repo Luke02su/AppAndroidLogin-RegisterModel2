@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Color
@@ -39,42 +40,29 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        // Function for navigation screens
+        // Function for navigation screens with background white
         setContent {
-            AppNavigation()
+            Surface(modifier = Modifier.fillMaxSize()) {
+                AppNavigation()
+            }
         }
     }
 }
 
-// Controller for navigation screens
+// Controller for navigation screens w
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "login") {
         composable("login") {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = Color.White
-            ) {
-                LoginScreen(navController)
-            }
+            LoginScreen(navController)
         }
         composable("register") {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = Color.White
-            ) {
-                RegisterScreen(navController)
-            }
+            RegisterScreen(navController)
         }
         composable("home") {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = Color.White
-            ) {
-                HomeScreen(navController)
-            }
+            HomeScreen(navController)
         }
     }
 }
@@ -87,89 +75,87 @@ fun LoginScreen(navController: NavHostController) {
     val auth = FirebaseAuth.getInstance()
     val context = LocalContext.current
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color.White
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 40.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
+        Text(
+            text = "Sign In",
+            color = Color.Gray,
+            fontSize = 20.sp
+        )
+
+        Text(
+            text = "Sign in your account",
+            fontSize = 12.sp,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 40.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Sign In",
-                color = Color.Gray,
-                fontSize = 20.sp
-            )
+                .align(Alignment.Start)
+                .padding(top = 40.dp)
+        )
 
-            Text(
-                text = "Sign in your account",
-                fontSize = 12.sp,
-                modifier = Modifier
-                    .align(Alignment.Start)
-                    .padding(top = 40.dp)
-            )
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Email") },
+            leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+            shape = RoundedCornerShape(10.dp),
+            singleLine = true
+        )
 
-            OutlinedTextField(
-                value = email,
-                onValueChange = { email = it },
-                label = { Text("Email") },
-                leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp),
-                singleLine = true
-            )
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Password") },
+            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp),
+            shape = RoundedCornerShape(10.dp),
+            singleLine = true
+        )
 
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text("Password") },
-                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
-                singleLine = true
-            )
-
-            Button(
-                onClick = {
-                    auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Toast.makeText(context, "Login successfully!", Toast.LENGTH_SHORT)
-                                    .show()
-                                navController.navigate("home")
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "Login failed: ${task.exception?.message}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+        Button(
+            onClick = {
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(context, "Login successfully!", Toast.LENGTH_SHORT)
+                                .show()
+                            navController.navigate("home")
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Login failed: ${task.exception?.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
-            ) {
-                Text("Sign in", color = Color.White)
-            }
-
-            Text(
-                text = "Don't have an account? Sign up",
-                color = Color.Gray,
-                fontSize = 14.sp,
-                modifier = Modifier
-                    .padding(top = 20.dp)
-                    .clickable {
-                        navController.navigate("register")
                     }
-            )
+            },
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
+        ) {
+            Text("Sign in", color = Color.White)
         }
+
+        Text(
+            text = "Don't have an account? Sign up",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .clickable {
+                    navController.navigate("register")
+                }
+        )
     }
 }
 
@@ -189,12 +175,12 @@ fun RegisterScreen(navController: NavHostController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text (
+        Text(
             text = "Sign Up",
             color = Color.Gray,
             fontSize = 20.sp
         )
-        Text (
+        Text(
             text = "Sign up your account",
             fontSize = 12.sp,
             modifier = Modifier
@@ -208,7 +194,8 @@ fun RegisterScreen(navController: NavHostController) {
             leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp),
+                .padding(top = 20.dp)
+                .clip(RoundedCornerShape(10.dp)),
             singleLine = true
         )
 
@@ -219,7 +206,8 @@ fun RegisterScreen(navController: NavHostController) {
             leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp),
+                .padding(top = 10.dp)
+            .clip(RoundedCornerShape(10.dp)),
             singleLine = true
         )
 
@@ -228,14 +216,19 @@ fun RegisterScreen(navController: NavHostController) {
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(context, "Register successfully!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Register successfully!", Toast.LENGTH_SHORT)
+                                .show()
                             navController.navigate("login")
                         } else {
-                            Toast.makeText(context, "Register failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                "Register failed: ${task.exception?.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
-                },
-            shape = RoundedCornerShape(4.dp),
+            },
+            shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 20.dp),
