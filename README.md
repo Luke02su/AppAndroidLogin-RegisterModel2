@@ -10,7 +10,7 @@
 ## Project 🎯
 This Android app provides a **Login & Register Model App 2** using **Firebase Authentication (Email/Password)**, implemented entirely in **Jetpack Compose**.  
 It includes Login Screen, Register Screen, and Home Dashboard. The app is designed with a **modern, responsive UI**, interactive clickable links, reusable components, and Compose-native layouts. Perfect for learning authentication flows and modern Android UI best practices. <br>
-The reverse engineering was done with the **Login & Register Model App (XML)**: (https://github.com/Luke02su/AppAndroidLogin-RegisterModel). However, now, exist the presence of register/login with **Google Authenticator**.
+The reverse engineering was done with the **Login & Register Model App (XML)**: (https://github.com/Luke02su/AppAndroidLogin-RegisterModel). However, now exist the presence of register/login with **Google Authenticator**.
 
 ---
 
@@ -126,6 +126,7 @@ fun main() {
     println("Welcome to the Login & Register Model App using Jetpack Compose!")
 }
 ```
+
 
 
 
