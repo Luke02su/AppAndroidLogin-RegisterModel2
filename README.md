@@ -10,7 +10,7 @@
 ## Project 🎯
 This Android app provides a **Login & Register Model App 2** using **Firebase Authentication (Email/Password)**, implemented entirely in **Jetpack Compose**.  
 It includes Login Screen, Register Screen, and Home Dashboard. The app is designed with a **modern, responsive UI**, interactive clickable links, reusable components, and Compose-native layouts. Perfect for learning authentication flows and modern Android UI best practices. <br>
-The reverse engineering was done with the **Login & Register Model App (XML)**: (https://github.com/Luke02su/AppAndroidLogin-RegisterModel).
+The reverse engineering was done with the **Login & Register Model App (XML)**: (https://github.com/Luke02su/AppAndroidLogin-RegisterModel). However, now, exist the presence of register/login with **Google Authenticator**.
 
 ---
 
@@ -20,13 +20,15 @@ The reverse engineering was done with the **Login & Register Model App (XML)**: 
 - Email and Password input fields with **icons**, **padding**, and **rounded corners**.  
 - **Sign In button**: blue (#2196F3), full-width, rounded corners (10dp).  
 - **Clickable "Sign up" link** to navigate to Register screen.  
-- Compose replaces XML layouts (`LinearLayout`, `ConstraintLayout`) with `Column` and `Modifier`-based design.
+- Compose replaces XML layouts (`LinearLayout`, `ConstraintLayout`) with `Column` and `Modifier`-based design
+- **Continue with Google** with same design, but color red.
 
 ### Register Screen
 - Similar styling to Login screen.  
-- **Sign Up button** with the same design.  
+- **Sign Up button** with the same design, but color is gray .
 - **Clickable "Sign in" link** to navigate to Login screen.  
-- Firebase handles **account creation and validation**.  
+- Firebase handles **account creation and validation**.
+- **Continue with Google** with same design, but color red.
 
 ### Home Screen
 - Placeholder dashboard for post-login content.  
@@ -34,8 +36,8 @@ The reverse engineering was done with the **Login & Register Model App (XML)**: 
 - Ready to add **navigation drawer, tabs, or app features**.
 
 <p align="center">
-   <img width="300" height="600" alt="Login Screen" src="https://github.com/user-attachments/assets/72a58539-c983-44e1-837d-8239097b7da7" />
-   <img width="300" height="600" alt="Register Screen" src="https://github.com/user-attachments/assets/a35d3c4c-5efc-4c93-80dc-90bc93b67f9a" />
+   <img width="300" height="600" alt="Login Screen" src="https://github.com/user-attachments/assets/1808a1ab-2b1a-490a-9e53-f0a981acd3e9" />
+   <img width="300" height="600" alt="Register Screen" src="https://github.com/user-attachments/assets/3ed4b938-7653-4fad-989b-637b5dd477fe" />
    <img width="300" height="600" alt="Home Screen" src="https://github.com/user-attachments/assets/d7182c03-57c4-415c-b5ff-79f3e89b339d" />
 </p>
 
@@ -44,7 +46,7 @@ The reverse engineering was done with the **Login & Register Model App (XML)**: 
 ## Features ✨
 | Feature | Description |
 |---------|-------------|
-| Login/Register | Email/password authentication using Firebase |
+| Login/Register | Email/password authentication and Google authentication using Firebase |
 | Input Validation | Check for empty fields, correct email format |
 | Toast Messages | Descriptive feedback for success/error |
 | Clickable Links | Navigate between Login/Register screens using Compose Navigation |
@@ -65,7 +67,7 @@ The reverse engineering was done with the **Login & Register Model App (XML)**: 
   - Email verification  
   - Social OAuth login (Google, Facebook, etc.)  
 
-**Compose register example**
+**Compose register using email example**
 ```kotlin
 auth.createUserWithEmailAndPassword(email, password)
     .addOnCompleteListener { task ->
@@ -78,7 +80,7 @@ auth.createUserWithEmailAndPassword(email, password)
     }
 ```
 
-**Compose login example**
+**Compose login using email example**
 ```kotlin
 
 auth.signInWithEmailAndPassword(email, password)
@@ -124,5 +126,6 @@ fun main() {
     println("Welcome to the Login & Register Model App using Jetpack Compose!")
 }
 ```
+
 
 
