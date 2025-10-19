@@ -145,7 +145,7 @@ fun GoogleLoginRegister(navController: NavHostController, context: Context) {
         colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
         shape = RoundedCornerShape(10.dp)
     ) {
-        Text("Sign in with Google", color = Color.White)
+        Text("Continue with Google", color = Color.White)
     }
 }
 
@@ -213,7 +213,7 @@ fun LoginScreen(navController: NavHostController) {
 
         Text(
             text = buildAnnotatedString {
-                append("Have an account? ")
+                append("Don't have an account? ")
                 withStyle(style = SpanStyle(color = Color.Cyan)) {
                     append(signUp)
                 }
@@ -293,7 +293,7 @@ fun RegisterScreen(navController: NavHostController) {
 
         Text(
             text = buildAnnotatedString {
-                append("Don't have an account? ")
+                append("Have an account? ")
                 withStyle(style = SpanStyle(color = Color.Cyan)) {
                     append(signIn)
                 }
