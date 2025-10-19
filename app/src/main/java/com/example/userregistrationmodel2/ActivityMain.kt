@@ -1,9 +1,12 @@
 package com.example.userregistrationmodel2
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,7 +39,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 
 class ActivityMain : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +73,79 @@ fun AppNavigation() {
         composable("home") {
             HomeScreen(navController)
         }
+    }
+}
+
+//Function for fields email and password
+@Composable
+fun FieldsEmailPassword(email: String, emailChange: (String) -> Unit,
+password: String, passwordChange: (String) -> Unit) {
+
+    OutlinedTextField(
+        value = email,
+        onValueChange = { emailChange (it)},
+        label = { Text("Email") },
+        leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 20.dp),
+        shape = RoundedCornerShape(10.dp),
+        singleLine = true
+    )
+
+    OutlinedTextField(
+        value = password,
+        onValueChange = { passwordChange (it) },
+        label = { Text("Password") },
+        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp),
+        shape = RoundedCornerShape(10.dp),
+        singleLine = true
+    )
+}
+
+//Register or login witch account Google
+@Composable
+fun GoogleLoginRegister(navController: NavHostController, context: Context) {
+    val auth = FirebaseAuth.getInstance()
+
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        try {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            val account = task.getResult(ApiException::class.java)
+            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+            FirebaseAuth.getInstance().signInWithCredential(credential)
+                .addOnCompleteListener { t ->
+                    if (t.isSuccessful) {
+                        Toast.makeText(context, "Continue with Google success!", Toast.LENGTH_SHORT).show()
+                        navController.navigate("home")
+                    } else {
+                        Toast.makeText(context, "Continue with Google failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        } catch (e: ApiException) {
+            Toast.makeText(context, "Continue with Google failed: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    Button(
+        onClick = {
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("509304447135-8br64glg5jckcc6v5e8j0rm0cq6952d2.apps.googleusercontent.com") // Coloque seu client ID aqui
+                .requestEmail()
+                .build()
+            val googleSignInClient = GoogleSignIn.getClient(context, gso)
+            googleSignInClient.signOut().addOnCompleteListener {
+                launcher.launch(googleSignInClient.signInIntent)
+            }
+        },
+        modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+        shape = RoundedCornerShape(10.dp)
+    ) {
+        Text("Sign in with Google", color = Color.White)
     }
 }
 
@@ -99,44 +179,24 @@ fun LoginScreen(navController: NavHostController) {
                 .padding(top = 40.dp)
         )
 
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") },
-            leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
-            shape = RoundedCornerShape(10.dp),
-            singleLine = true
-        )
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-            shape = RoundedCornerShape(10.dp),
-            singleLine = true
+        FieldsEmailPassword(
+            email = email, emailChange = { email = it },
+            password = password, passwordChange = { password = it }
         )
 
         Button(
             onClick = {
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(context, "Please, fill in all fields.", Toast.LENGTH_SHORT).show()
+                    return@Button
+                }
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(context, "Login successfully!", Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(context, "Login successfully!", Toast.LENGTH_SHORT).show()
                             navController.navigate("home")
                         } else {
-                            Toast.makeText(
-                                context,
-                                "Login failed: ${task.exception?.message}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(context, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
             },
@@ -148,6 +208,8 @@ fun LoginScreen(navController: NavHostController) {
         ) {
             Text("Sign in", color = Color.White)
         }
+
+        GoogleLoginRegister(navController = navController, context = context)
 
         Text(
             text = buildAnnotatedString {
@@ -195,44 +257,26 @@ fun RegisterScreen(navController: NavHostController) {
                 .align(Alignment.Start)
                 .padding(top = 40.dp)
         )
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") },
-            leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
-            shape = RoundedCornerShape(10.dp),
-            singleLine = true
+
+        FieldsEmailPassword(
+            email = email, emailChange = { email = it },
+            password = password, passwordChange = { password = it }
         )
 
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-            shape = RoundedCornerShape(10.dp),
-            singleLine = true
-        )
 
         Button(
             onClick = {
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(context, "Please, fill in all fields.", Toast.LENGTH_SHORT).show()
+                    return@Button
+                }
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(context, "Register successfully!", Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(context, "Register successfully!", Toast.LENGTH_SHORT).show()
                             navController.navigate("login")
                         } else {
-                            Toast.makeText(
-                                context,
-                                "Register failed: ${task.exception?.message}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(context, "Register failed: ${task.exception?.message}",Toast.LENGTH_SHORT).show()
                         }
                     }
             },
@@ -244,6 +288,8 @@ fun RegisterScreen(navController: NavHostController) {
         ) {
             Text("Sign up", color = Color.White)
         }
+
+        GoogleLoginRegister(navController = navController, context = context)
 
         Text(
             text = buildAnnotatedString {
