@@ -49,16 +49,16 @@ class ActivityMain : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        // Function for navigation screens with background white
         setContent {
-            Surface(modifier = Modifier.fillMaxSize()) {
+            // Function for all screens with background white
+            Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
                 AppNavigation()
             }
         }
     }
 }
 
-// Controller for navigation screens w
+// Controller for navigation screens
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
