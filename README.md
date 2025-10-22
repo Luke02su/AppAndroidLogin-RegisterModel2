@@ -36,8 +36,8 @@ The reverse engineering was done with the **Login & Register Model App (XML)**: 
 - Ready to add **navigation drawer, tabs, or app features**.
 
 <p align="center">
-   <img width="300" height="600" alt="Login Screen" src="https://github.com/user-attachments/assets/cc9c9682-c46a-4465-86bc-431c6a613174" />
-   <img width="300" height="600" alt="Register Screen" src="https://github.com/user-attachments/assets/092d7eaf-7bd6-4796-be9e-b2a5dc5a34c3" />
+   <img width="300" height="600" alt="Login Screen" src="https://github.com/user-attachments/assets/826bdf5f-4261-4a47-8113-06bab839be43" />
+   <img width="300" height="600" alt="Register Screen" src="https://github.com/user-attachments/assets/ac1d93c6-ac96-43ac-9dc4-c9b158d72b74" />
    <img width="300" height="600" alt="Home Screen" src="https://github.com/user-attachments/assets/d7182c03-57c4-415c-b5ff-79f3e89b339d" />
 </p>
 
@@ -126,6 +126,7 @@ fun main() {
     println("Welcome to the Login & Register Model App using Jetpack Compose!")
 }
 ```
+
 
 
 
