@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -32,13 +33,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.userregistrationmodel2.R.drawable.icon_google
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -142,10 +146,16 @@ fun GoogleLoginRegister(navController: NavHostController, context: Context) {
             }
         },
         modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEF5350)),
         shape = RoundedCornerShape(10.dp)
     ) {
-        Text("Continue with Google", color = Color.White)
+        Text("Continue with", color = Color.White)
+        Spacer(modifier = Modifier.width(8.dp))
+        Image(
+            painter = painterResource(icon_google),
+            contentDescription = "Icon of Google",
+            modifier = Modifier.size(24.dp)
+        )
     }
 }
 
@@ -315,7 +325,7 @@ fun HomeScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(Color.DarkGray),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -325,4 +335,22 @@ fun HomeScreen(navController: NavHostController) {
             fontSize = 12.sp
         )
     }
+}
+
+@Composable
+@Preview
+fun LoginScreen() {
+    LoginScreen()
+}
+
+@Composable
+@Preview
+fun RegisterScreen() {
+    RegisterScreen()
+}
+
+@Composable
+@Preview
+fun HomeScreen() {
+    HomeScreen()
 }
