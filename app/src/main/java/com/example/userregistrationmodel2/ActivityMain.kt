@@ -150,7 +150,7 @@ fun GoogleLoginRegister(navController: NavHostController, context: Context) {
         shape = RoundedCornerShape(10.dp)
     ) {
         Text("Continue with", color = Color.White)
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(4.dp))
         Image(
             painter = painterResource(icon_google),
             contentDescription = "Icon of Google",
